@@ -7,7 +7,7 @@ import argparse
 # Add path to config
 sys.path.append('../../')
 import config as conf
-sys.path.append(os.path.join(conf.backbones_path, 'image_captioning'))
+sys.path.append(os.path.join(conf.core_models_path, 'image_captioning', 'features'))
 from build_vocab import Vocabulary
 
 VOCAB_PATH = os.path.join(conf.models_path, 'image_captioning', 'vocab.pkl')
