@@ -10,7 +10,6 @@ from sklearn.manifold import TSNE
 import scipy
 import scipy.spatial.distance
 import sys
-import utils
 
 
 def euclidean(u, v):
@@ -227,86 +226,3 @@ def lsa(df, k=100):
     singvals = np.diag(singvals)
     trunc = np.dot(rowmat[:, 0:k], singvals[0:k, 0:k])
     return pd.DataFrame(trunc, index=df.index)
-
-
-def glove(df, n=100, xmax=100, alpha=0.75, max_iter=100, eta=0.05,
-        tol=1e-4, display_progress=True):
-    """Basic GloVe.
-
-    Parameters
-    ----------
-    df : pd.DataFrame or np.array
-        This must be a square matrix.
-    n : int (default: 100)
-        The dimensionality of the output vectors.
-    xmax : int (default: 100)
-        Words with frequency greater than this are given weight 1.0.
-        Words with frequency under this are given weight (c/xmax)**alpha
-        where c is their count in mat (see the paper, eq. (9)).
-    alpha : float (default: 0.75)
-        Exponent in the weighting function (see the paper, eq. (9)).
-    max_iter : int (default: 100)
-        Number of training epochs.
-    eta : float (default: 0.05)
-        Controls the rate of SGD weight updates.
-    tol : float (default: 1e-4)
-        Stopping criterion for the loss.
-    display_progress : bool (default: True)
-        Whether to print iteration number and current error to stdout.
-
-    Returns
-    -------
-    pd.DataFrame
-        With dimension `(df.shape[0], n)`
-
-    """
-    X = df.values if isinstance(df, pd.DataFrame) else df
-    m = X.shape[0]
-    # Parameters:
-    W = utils.randmatrix(m, n)  # Word weights.
-    C = utils.randmatrix(m, n)  # Context weights.
-    B = utils.randmatrix(2, m)  # Word and context biases.
-    # Precomputable GloVe values:
-    X_log = utils.log_of_array_ignoring_zeros(X)
-    X_weights = (np.minimum(X, xmax) / xmax)**alpha  # eq. (9)
-    # Learning:
-    indices = list(range(m))
-    for iteration in range(max_iter):
-        error = 0.0
-        random.shuffle(indices)
-        for i, j in itertools.product(indices, indices):
-            if X[i,j] > 0.0:
-                weight = X_weights[i,j]
-                # Cost is J' based on eq. (8) in the paper:
-                diff = W[i].dot(C[j]) + B[0,i] + B[1,j] - X_log[i,j]
-                fdiff = diff * weight
-                # Gradients:
-                wgrad = fdiff * C[j]
-                cgrad = fdiff * W[i]
-                wbgrad = fdiff
-                wcgrad = fdiff
-                # Updates:
-                W[i] -= eta * wgrad
-                C[j] -= eta * cgrad
-                B[0,i] -= eta * wbgrad
-                B[1,j] -= eta * wcgrad
-                # One-half squared error term:
-                error += 0.5 * weight * (diff**2)
-        error /= m
-        if display_progress:
-            if error < tol:
-                utils.progress_bar(
-                    "Stopping at iteration {} with "
-                    "error {}".format(iteration, error))
-                break
-            else:
-                utils.progress_bar(
-                    "Iteration {}: error {}".format(iteration, error))
-    if display_progress:
-        sys.stderr.write('\n')
-    # Return the sum of the word and context matrices, per the advice
-    # in section 4.2:
-    G = W + C
-    if isinstance(df, pd.DataFrame):
-        G = pd.DataFrame(G, index=df.index)
-    return G
