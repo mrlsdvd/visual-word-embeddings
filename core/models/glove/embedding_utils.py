@@ -12,7 +12,7 @@ sys.path.append(conf.utils_path)
 from vocabulary import Vocabulary
 
 VOCAB_PATH = os.path.join(conf.models_path, 'glove', 'vocab.pkl')
-EMBEDDINGS_PATH = os.path.join(conf.models_path, 'glove', 'glove.6B', 'glove.6B.50d.txt')
+EMBEDDINGS_PATH = os.path.join(conf.models_path, 'glove', 'glove.6B', 'glove.6B.20d.txt')
 
 def get_embeddings(vocab_path=VOCAB_PATH, embeddings_path=EMBEDDINGS_PATH, embed_type='numpy'):
     """Load saved trained embeddings and corresponding vocabulary
