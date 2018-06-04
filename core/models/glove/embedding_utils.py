@@ -12,7 +12,7 @@ sys.path.append(conf.utils_path)
 from vocabulary import Vocabulary
 
 VOCAB_PATH = os.path.join(conf.models_path, 'glove', 'vocab.pkl')
-EMBEDDINGS_PATH = os.path.join(conf.models_path, 'glove', 'glove.6B', 'glove.6B.200d.txt')
+EMBEDDINGS_PATH = os.path.join(conf.models_path, 'glove', 'glove.6B', 'glove.6B.50d.txt')
 
 def get_embeddings(vocab_path=VOCAB_PATH, embeddings_path=EMBEDDINGS_PATH, embed_type='numpy'):
     """Load saved trained embeddings and corresponding vocabulary
@@ -28,6 +28,7 @@ def get_embeddings(vocab_path=VOCAB_PATH, embeddings_path=EMBEDDINGS_PATH, embed
         vocab = pickle.load(f)
     # Load the trained model parameters
     embeddings = pd.read_csv(embeddings_path, sep='\s+', header=None, index_col=0, engine='python')
+    # embeddings = embeddings.dot(embeddings.transpose())
     # vocab_index = embeddings.index.tolist()
 
     # # Create a vocab wrapper and add some special tokens.

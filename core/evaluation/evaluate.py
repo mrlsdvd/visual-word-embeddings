@@ -32,7 +32,7 @@ def main(args):
 		evaluate_similarity(embeddings, vocab)
 	if args.neighbors:
 		anchor = args.neighbors
-		view_neighbors(embeddings, vocab, anchor, num_show=5)
+		view_neighbors(embeddings, vocab, anchor, num_show=6)
 
 
 if __name__ == '__main__':
