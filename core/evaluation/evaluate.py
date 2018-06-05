@@ -8,6 +8,7 @@ sys.path.append(conf.utils_path)
 from vocabulary import Vocabulary
 from image_captioning.embedding_utils import get_embeddings as get_caption_embeddings
 from glove.embedding_utils import get_embeddings as get_glove_embeddings
+from topdown.embedding_utils import get_embeddings as get_topdown_embeddings
 import word_similarity
 
 def evaluate_similarity(embeddings, vocab):
@@ -24,6 +25,8 @@ def main(args):
 		embeddings, vocab = get_caption_embeddings()
 	elif embed_type == "glove":
 		embeddings, vocab = get_glove_embeddings()
+	elif embed_type == "topdown":
+		embeddings, vocab = get_topdown_embeddings()
 	elif embed_type == "bimodal":
 		pass
 	elif embed_type == "color":
@@ -39,6 +42,6 @@ if __name__ == '__main__':
 	parser = argparse.ArgumentParser()
 	parser.add_argument('--embed', type=str, default='glove', help='Embeddings to be evaluated [glove, bimodal, color, caption]')
 	parser.add_argument('--similarity', type=bool, default=False, help='Whether to evaluate similarity')
-	parser.add_argument('--neighbors', type=str, default='glove', help='Word to find neighbors of')
+	parser.add_argument('--neighbors', type=str, default='hot', help='Word to find neighbors of')
 	args = parser.parse_args()
 	main(args)
