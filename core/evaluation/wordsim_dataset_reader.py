@@ -56,3 +56,8 @@ def men_reader():
     """MEN: http://clic.cimec.unitn.it/~elia.bruni/MEN"""
     src_filename = os.path.join(wordsim_home, 'MEN_dataset_natural_form_full')
     return wordsim_dataset_reader(src_filename, header=False, delimiter=' ')
+
+def rg65_reader():
+    """RG-65: https://www.dropbox.com/s/chopke5zqly228d/EN-RG-65.txt"""
+    src_filename = os.path.join(wordsim_home, 'EN-RG-65.txt')
+    return wordsim_dataset_reader(src_filename, header=False, delimiter='\t')

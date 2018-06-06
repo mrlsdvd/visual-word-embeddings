@@ -6,7 +6,7 @@ sys.path.append('../')
 import config as conf
 sys.path.append(conf.utils_path)
 import vsm
-from wordsim_dataset_reader import wordsim353_reader, men_reader, mturk287_reader, mturk771_reader
+from wordsim_dataset_reader import wordsim353_reader, men_reader, mturk287_reader, mturk771_reader, rg65_reader
 
 def word_similarity_evaluation(reader, embeddings, vocabulary, distfunc=vsm.cosine, verbose=True):
     """Word-similarity evalution framework.
@@ -89,7 +89,7 @@ def full_word_similarity_evaluation(embeddings, vocab, verbose=True):
 
     """
     scores = {}
-    for reader in (wordsim353_reader, mturk287_reader, mturk771_reader, men_reader):
+    for reader in (wordsim353_reader, mturk287_reader, mturk771_reader, men_reader, rg65_reader):
         if verbose:
             print("="*40)
             print(reader.__name__)
