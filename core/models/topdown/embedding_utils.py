@@ -1,4 +1,5 @@
 import torch
+import torch.nn as nn
 import numpy as np
 import pickle
 import os
@@ -11,7 +12,7 @@ import config as conf
 sys.path.append(conf.utils_path)
 from vocabulary import Vocabulary
 
-# VOCAB_LOAD_PATH = os.path.join(conf.models_path, 'topdown', 'infos_td-best.pkl')
+VOCAB_LOAD_PATH = os.path.join(conf.models_path, 'topdown', 'infos_td-best.pkl')
 VOCAB_PATH = os.path.join(conf.models_path, 'topdown', 'vocab.pkl')
 EMBEDDINGS_PATH = os.path.join(conf.models_path, 'topdown', 'model-best.pth')
 
@@ -29,25 +30,30 @@ def get_embeddings(vocab_path=VOCAB_PATH, embeddings_path=EMBEDDINGS_PATH, embed
         vocab = pickle.load(f)
 
     # Load the trained model parameters
-    embeddings = torch.load(embeddings_path, map_location='cpu')['embed.0.weight']
+    weights = torch.load(embeddings_path, map_location='cpu')
+    embed_weights = weights['embed.0.weight']
+
+    embeddings = embed_weights
+
+
 
 # ------Load the vocabulary from downloaded pretrained model------------
-    # # Create a vocab wrapper and add some special tokens.
+    # Create a vocab wrapper and add some special tokens.
     # with open(VOCAB_LOAD_PATH, 'rb') as f:
     #     infos = pickle.load(f, encoding='latin1')
     # loaded_vocab = infos['vocab']
-
+    #
     # vocab = Vocabulary()
     # vocab.add_word('<pad>')
     # vocab.add_word('<start>')
     # vocab.add_word('<end>')
     # vocab.add_word('<unk>')
-
-    
+    #
+    #
     # # Add the words to the vocabulary.
     # for i, word in enumerate(loaded_vocab.values()):
     #     vocab.add_word(word)
-
+    #
     # print(vocab.word2idx.keys())
     # # Save vocabulary wrapper
     # with open(vocab_path, 'wb') as f:
