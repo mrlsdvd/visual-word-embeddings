@@ -9,6 +9,7 @@ from vocabulary import Vocabulary
 from image_captioning.embedding_utils import get_embeddings as get_caption_embeddings
 from glove.embedding_utils import get_embeddings as get_glove_embeddings
 from topdown.embedding_utils import get_embeddings as get_topdown_embeddings
+from glove_image_captioning.embedding_utils import get_embeddings as get_glove_caption_embeddings
 import word_similarity
 
 def evaluate_similarity(embeddings, vocab):
@@ -27,6 +28,8 @@ def main(args):
 		embeddings, vocab = get_glove_embeddings()
 	elif embed_type == "topdown":
 		embeddings, vocab = get_topdown_embeddings()
+	elif embed_type == "glove_caption":
+		embeddings, vocab = get_glove_caption_embeddings()
 	elif embed_type == "bimodal":
 		pass
 	elif embed_type == "color":
