@@ -33,7 +33,7 @@ def get_embeddings(vocab_path=VOCAB_PATH, embeddings_path=EMBEDDINGS_PATH, embed
     weights = torch.load(embeddings_path)
     # print(weights.keys())
     embeddings = weights['embed.weight'].detach().numpy()
-    embeddings = pd.read_table(EMBEDDINGS_PATH, sep=" ", index_col=0, header=None, quoting=csv.QUOTE_NONE, encoding='utf-8').values
+    # embeddings = pd.read_table(EMBEDDINGS_PATH, sep=" ", index_col=0, header=None, quoting=csv.QUOTE_NONE, encoding='utf-8').values
     # special_embeddings = np.random.rand(4, embeddings.shape[1])
     # embeddings = np.vstack([embeddings, special_embeddings])
     l1_weight = weights['linear_1.weight'].detach().numpy()
