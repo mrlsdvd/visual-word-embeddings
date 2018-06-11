@@ -5,6 +5,7 @@ import os
 import sys
 import argparse
 import pandas as pd
+import csv
 # Add path to config
 sys.path.append('../../')
 import config as conf
@@ -12,6 +13,7 @@ sys.path.append(conf.utils_path)
 from vocabulary import Vocabulary
 
 VOCAB_PATH = os.path.join(conf.models_path, 'glove', 'vocab.pkl')
+# VOCAB_PATH = os.path.join(conf.core_models_path, 'bimodal_autoencoder', 'data', 'vocab.pkl')
 EMBEDDINGS_PATH = os.path.join(conf.models_path, 'glove', 'glove.6B', 'glove.6B.200d.txt')
 
 def get_embeddings(vocab_path=VOCAB_PATH, embeddings_path=EMBEDDINGS_PATH, embed_type='numpy'):
@@ -27,27 +29,37 @@ def get_embeddings(vocab_path=VOCAB_PATH, embeddings_path=EMBEDDINGS_PATH, embed
     with open(vocab_path, 'rb') as f:
         vocab = pickle.load(f)
     # Load the trained model parameters
-    embeddings = pd.read_csv(embeddings_path, sep='\s+', header=None, index_col=0, engine='python')
+    embeddings = pd.read_table(EMBEDDINGS_PATH, sep=" ", index_col=0, header=None, quoting=csv.QUOTE_NONE, encoding='utf-8')
     # # embeddings = embeddings.dot(embeddings.transpose())
-    # vocab_index = embeddings.index.tolist()
-    #
+    vocab_index = embeddings.index.tolist()
+
+
+# ------Load the vocabulary from downloaded pretrained model------------
     # # Create a vocab wrapper and add some special tokens.
     # vocab = Vocabulary()
-    # vocab.add_word('<pad>')
-    # vocab.add_word('<start>')
-    # vocab.add_word('<end>')
-    # vocab.add_word('<unk>')
     #
     # # Add the words to the vocabulary.
     # for i, word in enumerate(vocab_index):
     #     vocab.add_word(word)
     #
+    # vocab.add_word('<pad>')
+    # vocab.add_word('<start>')
+    # vocab.add_word('<end>')
+    # vocab.add_word('<unk>')
+    #
     # # Save vocabulary wrapper
     # with open(vocab_path, 'wb') as f:
     #    pickle.dump(vocab, f, pickle.HIGHEST_PROTOCOL)
-
+# ----------------------------------------------------------------------
     if embed_type == 'numpy':
         embeddings = embeddings.values
+
+    # Add special token vecotors to embedding matrix
+    special_embeddings = np.random.rand(4, embeddings.shape[1])
+    embeddings = np.vstack([embeddings, special_embeddings])
+
+    print(embeddings.shape)
+
 
     return embeddings, vocab
 

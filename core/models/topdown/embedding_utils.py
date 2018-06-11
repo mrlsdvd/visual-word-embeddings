@@ -38,23 +38,22 @@ def get_embeddings(vocab_path=VOCAB_PATH, embeddings_path=EMBEDDINGS_PATH, embed
 
 
 # ------Load the vocabulary from downloaded pretrained model------------
-    # Create a vocab wrapper and add some special tokens.
+    # # Create a vocab wrapper and add some special tokens.
     # with open(VOCAB_LOAD_PATH, 'rb') as f:
     #     infos = pickle.load(f, encoding='latin1')
     # loaded_vocab = infos['vocab']
     #
     # vocab = Vocabulary()
+    # # Add the words to the vocabulary.
+    # for i, word in enumerate(loaded_vocab.values()):
+    #     vocab.add_word(word)
+    #
     # vocab.add_word('<pad>')
     # vocab.add_word('<start>')
     # vocab.add_word('<end>')
     # vocab.add_word('<unk>')
     #
-    #
-    # # Add the words to the vocabulary.
-    # for i, word in enumerate(loaded_vocab.values()):
-    #     vocab.add_word(word)
-    #
-    # print(vocab.word2idx.keys())
+    # # print(vocab.word2idx.keys())
     # # Save vocabulary wrapper
     # with open(vocab_path, 'wb') as f:
     #    pickle.dump(vocab, f, pickle.HIGHEST_PROTOCOL)

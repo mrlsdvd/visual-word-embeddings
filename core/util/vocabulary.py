@@ -9,7 +9,7 @@ class Vocabulary(object):
         if not word in self.word2idx:
             self.word2idx[word] = self.idx
             self.idx2word[self.idx] = word
-            self.idx += 1
+        self.idx += 1
 
     def __call__(self, word):
         if not word in self.word2idx:
