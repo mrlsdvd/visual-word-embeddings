@@ -10,6 +10,7 @@ from image_captioning.embedding_utils import get_embeddings as get_caption_embed
 from glove.embedding_utils import get_embeddings as get_glove_embeddings
 from topdown.embedding_utils import get_embeddings as get_topdown_embeddings
 from glove_image_captioning.embedding_utils import get_embeddings as get_glove_caption_embeddings
+from bimodal_autoencoder.embedding_utils import get_embeddings as get_bimodal_embeddings
 import word_similarity
 
 def evaluate_similarity(embeddings, vocab):
@@ -31,14 +32,14 @@ def main(args):
 	elif embed_type == "glove_caption":
 		embeddings, vocab = get_glove_caption_embeddings()
 	elif embed_type == "bimodal":
-		pass
+		embeddings, vocab = get_bimodal_embeddings()
 	elif embed_type == "color":
 		pass
 	if args.similarity:
 		evaluate_similarity(embeddings, vocab)
 	if args.neighbors:
 		anchor = args.neighbors
-		view_neighbors(embeddings, vocab, anchor, num_show=6)
+		view_neighbors(embeddings, vocab, anchor, num_show=10)
 
 
 if __name__ == '__main__':
