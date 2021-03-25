@@ -68,7 +68,7 @@ pyparsing==2.0.7
 python-dateutil==2.7.3
 pytz==2015.7
 PyWavelets==0.5.2
-PyYAML==3.12
+PyYAML==5.4
 pyzmq==15.1.0
 qtconsole==4.1.1
 requests==2.18.4
